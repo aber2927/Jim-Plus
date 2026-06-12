@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>لوحة تحكم عبدو 💪</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --card: #161616;
+    --border: #222222;
+    --neon: #c8ff00;
+    --orange: #ff6b00;
+    --red: #ff3b3b;
+    --text: #e8e8e8;
+    --muted: #666;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ===== HERO BANNER ===== */
+  .hero {
+    background: linear-gradient(135deg, #0a0a0a 0%, #111 40%, #1a1200 100%);
+    border-bottom: 2px solid var(--neon);
+    padding: 24px 16px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(200,255,0,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-name {
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    color: var(--neon);
+    text-shadow: 0 0 20px rgba(200,255,0,0.4);
+    line-height: 1.1;
+  }
+  .hero-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+  .hero-weight {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    background: rgba(255,107,0,0.12);
+    border: 1px solid rgba(255,107,0,0.3);
+    border-radius: 30px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: var(--orange);
+    font-weight: 700;
+  }
+
+  /* ===== ALERT BANNER ===== */
+  .alert-banner {
+    background: linear-gradient(90deg, rgba(200,255,0,0.06), rgba(200,255,0,0.12), rgba(200,255,0,0.06));
+    border: 1px solid rgba(200,255,0,0.25);
+    border-radius: var(--radius);
+    margin: 12px 12px 0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--neon);
+    font-weight: 700;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .alert-banner .icon { font-size: 20px; flex-shrink: 0; }
+
+  /* ===== TABS ===== */
+  .tabs-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 12px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-wrapper::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    color: var(--muted);
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn.active {
+    background: var(--neon);
+    border-color: var(--neon);
+    color: #000;
+    box-shadow: 0 0 14px rgba(200,255,0,0.3);
+  }
+
+  /* ===== SECTIONS ===== */
+  .section {
+    display: none;
+    padding: 12px;
+    padding-bottom: 80px;
+    animation: fadeIn 0.25s ease;
+  }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+
+  /* ===== SECTION TITLE ===== */
+  .section-title {
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .badge {
+    background: var(--neon);
+    color: #000;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 900;
+  }
+
+  /* ===== DAY TABS ===== */
+  .day-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .day-tabs::-webkit-scrollbar { display: none; }
+  .day-tab {
+    flex-shrink: 0;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--muted);
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .day-tab .day-label { display: block; font-size: 14px; color: var(--text); }
+  .day-tab.active {
+    border-color: var(--orange);
+    background: rgba(255,107,0,0.1);
+    color: var(--orange);
+  }
+  .day-tab.active .day-label { color: var(--orange); }
+
+  /* ===== DAY CONTENT ===== */
+  .day-content { display: none; }
+  .day-content.active { display: block; }
+
+  /* ===== EXERCISE CARD ===== */
+  .exercise-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .exercise-card:hover { border-color: #333; }
+  .exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 14px 10px;
+    gap: 10px;
+  }
+  .exercise-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    flex: 1;
+  }
+  .exercise-name small {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .explain-btn {
+    flex-shrink: 0;
+    background: rgba(200,255,0,0.1);
+    border: 1px solid rgba(200,255,0,0.3);
+    border-radius: 8px;
+    color: var(--neon);
+    font-family: 'Cairo', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 7px 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .explain-btn:hover {
+    background: var(--neon);
+    color: #000;
+  }
+
+  /* ===== PAIN GUIDE ===== */
+  .pain-guide {
+    padding: 10px 14px 14px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .pain-item {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.5;
+    border-radius: 8px;
+    padding: 8px 10px;
+  }
+  .pain-good {
+    background: rgba(0, 210, 100, 0.07);
+    border: 1px solid rgba(0, 210, 100, 0.2);
+  }
+  .pain-bad {
+    background: rgba(255, 59, 59, 0.07);
+    border: 1px solid rgba(255, 59, 59, 0.2);
+  }
+  .pain-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .pain-label {
+    font-weight: 900;
+    font-size: 11px;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .pain-good .pain-label { color: #00d264; }
+  .pain-bad .pain-label { color: var(--red); }
+  .pain-good .pain-text { color: #b0f0c8; }
+  .pain-bad .pain-text { color: #ffb0b0; }
+
+  /* ===== SETS TRACKER inside card ===== */
+  .sets-row {
+    display: flex;
+    gap: 8px;
+    padding: 0 14px 14px;
+    flex-wrap: wrap;
+  }
+  .set-box {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    width: 56px;
+    text-align: center;
+    padding: 6px 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .set-box.done {
+    background: rgba(200,255,0,0.1);
+    border-color: var(--neon);
+  }
+  .set-box .set-num { font-size: 10px; color: var(--muted); }
+  .set-box .set-kg {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: center;
+    font-family: 'Cairo', sans-serif;
+    padding: 2px 0;
+    outline: none;
+    color: var(--text);
+  }
+  .set-box.done .set-kg { color: var(--neon); }
+  .set-box .set-reps { font-size: 10px; color: var(--muted); }
+
+  /* ===== FOOD SECTION ===== */
+  .food-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .food-tabs::-webkit-scrollbar { display: none; }
+  .food-tab-btn {
+    flex-shrink: 0;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--muted);
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .food-tab-btn.active {
+    border-color: var(--orange);
+    background: rgba(255,107,0,0.1);
+    color: var(--orange);
+  }
+
+  .food-plan { display: none; }
+  .food-plan.active { display: block; }
+
+  .food-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    padding: 14px;
+  }
+  .food-card-title {
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--orange);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .food-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .food-table th {
+    text-align: right;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 11px;
+    padding: 4px 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .food-table td {
+    padding: 8px 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+  .food-table tr:last-child td { border-bottom: none; }
+  .food-check {
+    width: 20px; height: 20px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    margin: 0 auto;
+    flex-shrink: 0;
+  }
+  .food-check.checked {
+    background: var(--neon);
+    border-color: var(--neon);
+    color: #000;
+  }
+  .macro-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .macro-chip {
+    flex: 1;
+    min-width: 70px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-align: center;
+    padding: 8px 4px;
+  }
+  .macro-chip .macro-val { font-size: 16px; font-weight: 900; color: var(--neon); }
+  .macro-chip .macro-lbl { font-size: 10px; color: var(--muted); }
+
+  /* ===== WEIGHT SECTION ===== */
+  .weight-current {
+    background: linear-gradient(135deg, var(--card), #1a1500);
+    border: 1px solid rgba(200,255,0,0.2);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .weight-num {
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--neon);
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(200,255,0,0.3);
+  }
+  .weight-num span { font-size: 22px; font-weight: 400; color: var(--muted); }
+  .weight-goal-text {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .progress-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .progress-bar-bg {
+    background: var(--surface);
+    border-radius: 100px;
+    height: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--orange), var(--neon));
+    transition: width 0.8s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 0 10px rgba(200,255,0,0.3);
+  }
+  .progress-pct {
+    text-align: center;
+    font-size: 13px;
+    color: var(--neon);
+    font-weight: 700;
+    margin-top: 8px;
+  }
+
+  .weight-history {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .weight-history-title {
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .weight-history-list { list-style: none; }
+  .weight-history-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+  }
+  .weight-history-list li:last-child { border-bottom: none; }
+  .weight-history-list .wh-date { color: var(--muted); }
+  .weight-history-list .wh-val { font-weight: 700; }
+  .weight-history-list .wh-diff { font-size: 11px; padding: 2px 8px; border-radius: 20px; }
+  .wh-up { background: rgba(0,210,100,0.1); color: #00d264; }
+  .wh-down { background: rgba(255,59,59,0.1); color: var(--red); }
+  .wh-same { background: rgba(255,255,255,0.05); color: var(--muted); }
+
+  .add-weight-form {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .add-weight-form label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .form-row {
+    display: flex;
+    gap: 8px;
+  }
+  .weight-input {
+    flex: 1;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  .weight-input:focus { border-color: var(--neon); }
+  .save-btn {
+    background: var(--neon);
+    border: none;
+    border-radius: 10px;
+    color: #000;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    font-weight: 900;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .save-btn:active { transform: scale(0.96); }
+
+  /* ===== TIPS CARD ===== */
+  .tip-card {
+    background: rgba(255,107,0,0.06);
+    border: 1px solid rgba(255,107,0,0.2);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .tip-card-title {
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--orange);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tip-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .tip-card li { font-size: 13px; color: #c0b090; display: flex; gap: 8px; align-items: flex-start; }
+  .tip-card li::before { content: '◉'; color: var(--orange); flex-shrink: 0; font-size: 10px; margin-top: 4px; }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px 20px 16px 16px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(40px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+  .modal-header {
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    border-radius: 20px 20px 0 0;
+  }
+  .modal-title { font-size: 16px; font-weight: 900; flex: 1; }
+  .modal-close {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px;
+    padding: 6px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .modal-body { padding: 16px; }
+  .modal-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card);
+    border: 1px solid rgba(200,255,0,0.2);
+    border-radius: 12px;
+    padding: 14px;
+    text-decoration: none;
+    color: var(--neon);
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    transition: all 0.2s;
+  }
+  .modal-link:hover { background: rgba(200,255,0,0.08); }
+  .modal-link .link-icon { font-size: 24px; }
+  .modal-muscles {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+  }
+  .modal-muscles-title { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 10px; }
+  .muscle-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .muscle-chip {
+    background: rgba(255,107,0,0.1);
+    border: 1px solid rgba(255,107,0,0.25);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--orange);
+    font-weight: 700;
+  }
+
+  /* ===== BOTTOM NAV (optional visual flair) ===== */
+  .bottom-space { height: 20px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-name">💪 لوحة عبدو</div>
+  <div class="hero-sub">MUSCLE BUILDING · FULL BODY PROGRAM</div>
+  <div class="hero-weight">⚖️ الوزن الحالي: <span id="hero-weight-display">57 كيلو</span> &nbsp;🎯 الهدف: 65 كيلو</div>
+</div>
+
+<!-- ALERT -->
+<div class="alert-banner">
+  <span class="icon">⚡</span>
+  <span>قاعدة الـ 3 ثواني في النزول والراحة 3 دقائق بين السيتات — هما سر الضخامة! وإذا رجعت بعد 12 الليل، <strong>النوم أولى من الجيم 🛌</strong></span>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrapper">
+  <button class="tab-btn active" onclick="showTab('gym')">🏋️ التمارين</button>
+  <button class="tab-btn" onclick="showTab('food')">🍗 الأكل</button>
+  <button class="tab-btn" onclick="showTab('weight')">📈 الوزن</button>
+  <button class="tab-btn" onclick="showTab('tips')">💡 نصايح</button>
+</div>
+
+<!-- ===== GYM SECTION ===== -->
+<div id="tab-gym" class="section active">
+  <div class="section-title">
+    جدول التمارين
+    <span class="badge">Full Body</span>
+  </div>
+
+  <div class="day-tabs">
+    <div class="day-tab active" onclick="showDay('a')">
+      <span class="day-label">السبت</span>
+      Full Body A
+    </div>
+    <div class="day-tab" onclick="showDay('b')">
+      <span class="day-label">الاثنين</span>
+      Full Body B
+    </div>
+    <div class="day-tab" onclick="showDay('c')">
+      <span class="day-label">الأربعاء</span>
+      Full Body C
+    </div>
+  </div>
+
+  <!-- DAY A -->
+  <div id="day-a" class="day-content active">
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">تجميع بنج مستوي <small>Flat Dumbbell Press</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=flat+dumbbell+bench+press+technique" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-a1"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">بطن عضلة الصدر — تحس بحرق وشد في مركز صدرك</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">نغزة أو وجع في مفصل الكتف أو الكوع — وقف فوراً وراجع وضعيتك</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">سحب عالي للضهر <small>Lat Pulldown</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=lat+pulldown+correct+form" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-a2"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">عضلة المجنص تحت الباط ومن خلف الظهر — شد عريض</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">تحميل كامل على الكوع أو الساعد — معناها ما شغّلت الظهر صح</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">تجميع كتف بالدمبل <small>Dumbbell Shoulder Press</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=dumbbell+overhead+shoulder+press+form" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-a3"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">تدويرة الكتف من الخارج — الدلتا الأمامي والجانبي</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">وجع في الرقبة أو أسفل الظهر — معناها تقوّس ظهرك أو رميت رأسك للأمام</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">تبادل باي بالدمبل <small>Biceps Curl</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=dumbbell+bicep+curl+form+technique" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-a4"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">كورة الدراع الأمامية — تحس بها تنتفخ وتحترق</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">نغزة في مفصل الكوع أو معصم الإيد — خفف الوزن وثبّت رسغك</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">دفع تراي بالمسطرة <small>Tricep Pushdown</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=tricep+pushdown+cable+correct+form" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-a5"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">الدراع من الخلف — العضلة التراي كاملة تحترق</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">وجع وتزييق في مفصل الكوع — ثبّت كوعك جنب جسمك ولا تفرده</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">سكوات على جهاز السميث <small>Smith Squat</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=smith+machine+squat+form+beginner" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-a6"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">الفخد الأمامي كامل والمؤخرة — حرق عميق في كل رجل</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">وجع في صابونة الركبة أو قطم في أسفل الظهر — ركبتك فاتت أصابعك أو ظهرك مدوّر</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end day-a -->
+
+  <!-- DAY B -->
+  <div id="day-b" class="day-content">
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">بنج مائل بالدمبل <small>Incline Dumbbell Press</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=incline+dumbbell+press+upper+chest" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-b1"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">الصدر العلوي — تحت عظمة الترقوة مباشرة</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">مفصل الكتف — معناها الزاوية عالية جداً أو الدمبل رح ورا كثير</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">تجديف بالبار أو T-Bar <small>Barbell Row / T-Bar Row</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=t+bar+row+back+form" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-b2"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">نص الظهر وعرضه — المجنص الأوسط والمعيّن</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">أسفل الظهر — معناها جذعك ما ثابت أو البار ما مثبّت على بطنك</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">رفرفة كتف جانبي <small>Lateral Raise</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=lateral+raise+dumbbell+correct+form" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-b3"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">جانب الكتف مباشرة — الدلتا الجانبي يحترق</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">الرقبة — معناها رفعت كتفيك مع الحركة، إفردهم للأسفل</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">تراي خلف الرأس <small>Overhead Tricep Extension</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=overhead+tricep+extension+dumbbell+form" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-b4"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">عضلة التراي الخلفية الطويلة — أعمق جزء في العضلة</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">مفصل الكوع — خفف الوزن وثبّت كوعيك ولا تفردهم للخارج</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">جهاز الدفع للرجل <small>Leg Press</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=leg+press+machine+correct+form" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-b5"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">عضلات الفخد كاملة — أمامي وجانبي</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">أسفل الظهر أو الركبة — ظهرك انفرد عن المسند أو الركبة طوّت أكثر من اللازم</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">جهاز السمانة واقف <small>Standing Calf Raises</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=standing+calf+raises+correct+form" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-b6"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">بطة الرجل من الخلف — الـ Gastrocnemius يحترق</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">وتر العرقوب أو الكاحل — خفف الوزن وتمدد بعدها</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end day-b -->
+
+  <!-- DAY C -->
+  <div id="day-c" class="day-content">
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">تجميع بنج بالدمبل / الفراشة <small>Chest Fly</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=dumbbell+chest+fly+pec+deck+form" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-c1"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">تمدد وشد في خط الصدر الوسطي — تحس بفتح عميق</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">شد عنيف في أوتار الكتف — قلّل نطاق الحركة للأسفل</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">سحب أرضي بالكيبل <small>Seated Cable Row</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=seated+cable+row+back+form" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-c2"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">المجنص وأسفل لوح الكتف — الضهر الأوسط</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">انحناء الظهر والوجع في الفقرات — ظهرك لازم يبقى مستقيم طول الوقت</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">رفرفة كتف خلفي <small>Rear Delt Fly</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=rear+delt+fly+dumbbell+cable+form" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-c3"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">الكتف الخلفي من وراء — الدلتا الخلفي</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">الرقبة — ركّز نظرك للأسفل وما ترفع رأسك</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">باي بالبار الزجزاج <small>EZ-Bar Curl</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=ez+bar+curl+bicep+form" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-c4"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">عضلة الباي كاملة — الدراع الأمامي يحترق</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">رسغ الإيد — يعني الإمساك غلط، جرب تغيير زاوية البار</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">تمديد الرجل أمامي <small>Leg Extension</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=leg+extension+machine+quad+form" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-c5"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">العضلة الأمامية للفخد — فوق الركبة مباشرة</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">صابونة الركبة نفسها — خفف الوزن وما تكمّل آخر نطاق الحركة</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="exercise-name">بلانك <small>Plank</small></div>
+        <a class="explain-btn" href="https://www.youtube.com/results?search_query=plank+exercise+correct+form+core" target="_blank">🎬 شرح</a>
+      </div>
+      <div class="sets-row" id="sets-c6"></div>
+      <div class="pain-guide">
+        <div class="pain-item pain-good">
+          <span class="pain-icon">✅</span>
+          <div><span class="pain-label">الوجع الصح</span><span class="pain-text">شد وحرق في عضلات البطن — جسمك خط مستقيم كامل</span></div>
+        </div>
+        <div class="pain-item pain-bad">
+          <span class="pain-icon">⛔</span>
+          <div><span class="pain-label">تحذير — وجع غلط</span><span class="pain-text">تحميل ووجع في أسفل الظهر — ارفع حوضك شوية وشدّ بطنك للداخل</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end day-c -->
+
+</div><!-- end gym section -->
+
+<!-- ===== FOOD SECTION ===== -->
+<div id="tab-food" class="section">
+  <div class="section-title">
+    تتبع الأكل
+    <span class="badge">3 جداول</span>
+  </div>
+
+  <div class="food-tabs">
+    <button class="food-tab-btn active" onclick="showFoodPlan(1)">🥩 خطة الكسب</button>
+    <button class="food-tab-btn" onclick="showFoodPlan(2)">🥗 خطة نظيفة</button>
+    <button class="food-tab-btn" onclick="showFoodPlan(3)">⚡ خطة السريع</button>
+  </div>
+
+  <!-- Plan 1 -->
+  <div id="food-plan-1" class="food-plan active">
+    <div class="macro-row">
+      <div class="macro-chip"><div class="macro-val">2800</div><div class="macro-lbl">سعرات</div></div>
+      <div class="macro-chip"><div class="macro-val">180g</div><div class="macro-lbl">بروتين</div></div>
+      <div class="macro-chip"><div class="macro-val">320g</div><div class="macro-lbl">كارب</div></div>
+      <div class="macro-chip"><div class="macro-val">70g</div><div class="macro-lbl">دهون</div></div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="food-card">
+      <div class="food-card-title">🌅 الفطور</div>
+      <table class="food-table">
+        <tr><th>الأكلة</th><th>الكمية</th><th>✓</th></tr>
+        <tr><td>بيض مسلوق أو عيون</td><td>4 بيضات</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>خبز توست أسمر</td><td>3 تيستات</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>جبن قريش أو لبنة</td><td>100g</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>موزة</td><td>1 حبة</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+      </table>
+    </div>
+    <div class="food-card">
+      <div class="food-card-title">⚙️ قبل الجيم (60 دقيقة)</div>
+      <table class="food-table">
+        <tr><th>الأكلة</th><th>الكمية</th><th>✓</th></tr>
+        <tr><td>أرز أبيض مسلوق</td><td>150g</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>صدر دجاج مشوي</td><td>150g</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+      </table>
+    </div>
+    <div class="food-card">
+      <div class="food-card-title">💪 بعد الجيم (30 دقيقة)</div>
+      <table class="food-table">
+        <tr><th>الأكلة</th><th>الكمية</th><th>✓</th></tr>
+        <tr><td>بروتين شيك / حليب</td><td>400ml</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>موزة</td><td>2 حبة</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+      </table>
+    </div>
+    <div class="food-card">
+      <div class="food-card-title">🍽️ الغداء</div>
+      <table class="food-table">
+        <tr><th>الأكلة</th><th>الكمية</th><th>✓</th></tr>
+        <tr><td>أرز أو معكرونة</td><td>200g مطبوخ</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>لحم بقري أو دجاج</td><td>200g</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>سلطة أو خضار</td><td>حسب الرغبة</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+      </table>
+    </div>
+    <div class="food-card">
+      <div class="food-card-title">🌙 العشاء</div>
+      <table class="food-table">
+        <tr><th>الأكلة</th><th>الكمية</th><th>✓</th></tr>
+        <tr><td>تونة أو سمك</td><td>1 علبة / 150g</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>خبز توست أسمر</td><td>2 تيستات</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>لبن / زبادي</td><td>200g</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Plan 2 -->
+  <div id="food-plan-2" class="food-plan">
+    <div class="macro-row">
+      <div class="macro-chip"><div class="macro-val">2400</div><div class="macro-lbl">سعرات</div></div>
+      <div class="macro-chip"><div class="macro-val">160g</div><div class="macro-lbl">بروتين</div></div>
+      <div class="macro-chip"><div class="macro-val">250g</div><div class="macro-lbl">كارب</div></div>
+      <div class="macro-chip"><div class="macro-val">60g</div><div class="macro-lbl">دهون</div></div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="food-card">
+      <div class="food-card-title">🌅 الفطور</div>
+      <table class="food-table">
+        <tr><th>الأكلة</th><th>الكمية</th><th>✓</th></tr>
+        <tr><td>شوفان بالحليب</td><td>80g شوفان</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>بياض بيض</td><td>4 بيضات</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>عسل</td><td>1 ملعقة</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+      </table>
+    </div>
+    <div class="food-card">
+      <div class="food-card-title">🥙 وجبة وسط النهار</div>
+      <table class="food-table">
+        <tr><th>الأكلة</th><th>الكمية</th><th>✓</th></tr>
+        <tr><td>صدر دجاج مشوي</td><td>200g</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>بطاطا حلوة</td><td>150g</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>بروكلي / خضار خضراء</td><td>حسب الرغبة</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+      </table>
+    </div>
+    <div class="food-card">
+      <div class="food-card-title">🌙 العشاء</div>
+      <table class="food-table">
+        <tr><th>الأكلة</th><th>الكمية</th><th>✓</th></tr>
+        <tr><td>سمك مشوي</td><td>200g</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>أرز بني</td><td>100g مطبوخ</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>زبادي يوناني</td><td>150g</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Plan 3 -->
+  <div id="food-plan-3" class="food-plan">
+    <div class="macro-row">
+      <div class="macro-chip"><div class="macro-val">2600</div><div class="macro-lbl">سعرات</div></div>
+      <div class="macro-chip"><div class="macro-val">170g</div><div class="macro-lbl">بروتين</div></div>
+      <div class="macro-chip"><div class="macro-val">280g</div><div class="macro-lbl">كارب</div></div>
+      <div class="macro-chip"><div class="macro-val">65g</div><div class="macro-lbl">دهون</div></div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="food-card">
+      <div class="food-card-title">⚡ جدول سريع (3 وجبات فقط)</div>
+      <table class="food-table">
+        <tr><th>الوجبة</th><th>الوصف</th><th>✓</th></tr>
+        <tr><td>الفطور</td><td>4 بيض + 3 توست + موزة</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>الغداء</td><td>250g دجاج + 200g أرز + خضار</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>العشاء</td><td>تونة + توست + لبن + فاكهة</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+      </table>
+    </div>
+    <div class="food-card">
+      <div class="food-card-title">🥤 سناك بين الوجبات</div>
+      <table class="food-table">
+        <tr><th>الخيار</th><th>الوصف</th><th>✓</th></tr>
+        <tr><td>مكسرات</td><td>حفنة واحدة (30g)</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>فاكهة</td><td>تفاحة أو موزة</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+        <tr><td>بروتين بار</td><td>1 قطعة</td><td><div class="food-check" onclick="toggleCheck(this)"></div></td></tr>
+      </table>
+    </div>
+  </div>
+
+</div><!-- end food section -->
+
+<!-- ===== WEIGHT SECTION ===== -->
+<div id="tab-weight" class="section">
+  <div class="section-title">تتبع الوزن</div>
+
+  <div class="weight-current">
+    <div class="weight-num" id="current-weight-display">57<span> كيلو</span></div>
+    <div class="weight-goal-text">🎯 الهدف: 65 كيلو &nbsp;|&nbsp; الفرق: <span id="weight-gap">8</span> كيلو</div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-labels">
+      <span>🏁 57 كيلو</span>
+      <span>🏆 65 كيلو</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="weight-progress" style="width: 0%"></div>
+    </div>
+    <div class="progress-pct" id="weight-pct">0% من الهدف</div>
+  </div>
+
+  <div class="add-weight-form">
+    <label>📝 سجّل وزنك اليوم (كيلو)</label>
+    <div class="form-row">
+      <input class="weight-input" type="number" id="weight-input" step="0.1" min="50" max="120" placeholder="مثال: 58.5">
+      <button class="save-btn" onclick="saveWeight()">💾 سجّل</button>
+    </div>
+  </div>
+
+  <div class="weight-history">
+    <div class="weight-history-title">
+      <span>📅 السجل الأسبوعي</span>
+      <span style="font-size:11px; color:var(--muted)">آخر 8 أسابيع</span>
+    </div>
+    <ul class="weight-history-list" id="weight-history-list">
+      <li><span class="wh-date">بداية البرنامج</span><span class="wh-val">57.0 كيلو</span><span class="wh-diff wh-same">بداية</span></li>
+    </ul>
+  </div>
+
+</div><!-- end weight section -->
+
+<!-- ===== TIPS SECTION ===== -->
+<div id="tab-tips" class="section">
+  <div class="section-title">نصايح الضخامة 💡</div>
+
+  <div class="tip-card">
+    <div class="tip-card-title">⚡ قواعد التمرين الذهبية</div>
+    <ul>
+      <li>قاعدة الـ 3 ثواني في النزول — الإكسنتريك هو سر التمزق العضلي</li>
+      <li>راحة 3 دقائق كاملة بين كل سيت — ما تستعجل</li>
+      <li>4 سيتات × 8-10 ريبس لكل تمرين</li>
+      <li>Progressive Overload — زيد 1-2 كيلو كل أسبوعين</li>
+      <li>تمدد 10 دقائق بعد كل تمرين — ضروري للنمو</li>
+    </ul>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-card-title">🍗 قواعد الأكل للضخامة</div>
+    <ul>
+      <li>الهدف: 2.2g بروتين لكل كيلو من وزنك يومياً</li>
+      <li>الكارب بعد الجيم مباشرة — جسمك يمتصه أحسن</li>
+      <li>ما تنام جعان — وجبة خفيفة قبل النوم مهمة</li>
+      <li>اشرب 3-4 لتر ماء يومياً على الأقل</li>
+      <li>Caloric Surplus: كل أكثر من احتياجك بـ 300-400 سعرة</li>
+    </ul>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-card-title">😴 النوم والتعافي</div>
+    <ul>
+      <li>النوم الكافي (7-9 ساعات) = Growth Hormone = ضخامة</li>
+      <li>إذا رجعت بعد 12 الليل، النوم أولى من الجيم</li>
+      <li>يوم راحة بين كل تمرين — ما تزيد على 3 أيام أسبوعياً</li>
+      <li>يوم الراحة مهم مثل يوم التمرين — عضلاتك تكبر في الراحة</li>
+      <li>إذا حسيت بوجع مفاصل حقيقي — استراح أسبوع كامل</li>
+    </ul>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-card-title">📊 مؤشرات التقدم الصح</div>
+    <ul>
+      <li>الوزن يزيد 0.5-1 كيلو في الشهر = ضخامة نظيفة</li>
+      <li>الوزن على التمرين يزيد كل أسبوعين = أنت بتتقدم</li>
+      <li>الصور أحسن من الميزان — خذ صورة كل أسبوعين</li>
+      <li>إذا الوزن ما زاد بعد أسبوعين — زيد 200 سعرة يومياً</li>
+    </ul>
+  </div>
+
+</div><!-- end tips section -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">شرح التمرين</div>
+      <button class="modal-close" onclick="closeModalDirect()">✕ إغلاق</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ===== TABS =====
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===== DAY TABS =====
+function showDay(day) {
+  document.querySelectorAll('.day-content').forEach(d => d.classList.remove('active'));
+  document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('day-' + day).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ===== SETS TRACKER =====
+const setsData = {};
+
+function buildSets() {
+  const ids = ['a1','a2','a3','a4','a5','a6','b1','b2','b3','b4','b5','b6','c1','c2','c3','c4','c5','c6'];
+  ids.forEach(id => {
+    const container = document.getElementById('sets-' + id);
+    if (!container) return;
+    const saved = JSON.parse(localStorage.getItem('sets-' + id) || '[]');
+    for (let i = 1; i <= 4; i++) {
+      const s = saved[i-1] || { kg: '', done: false };
+      const box = document.createElement('div');
+      box.className = 'set-box' + (s.done ? ' done' : '');
+      box.innerHTML = `<div class="set-num">سيت ${i}</div><input class="set-kg" type="number" placeholder="كيلو" value="${s.kg}" min="0" step="0.5"><div class="set-reps">8-10 ريب</div>`;
+      box.addEventListener('click', function(e) {
+        if (e.target.tagName === 'INPUT') return;
+        box.classList.toggle('done');
+        saveSets(id, container);
+      });
+      box.querySelector('input').addEventListener('change', () => saveSets(id, container));
+      container.appendChild(box);
+    }
+  });
+}
+
+function saveSets(id, container) {
+  const boxes = container.querySelectorAll('.set-box');
+  const data = Array.from(boxes).map(b => ({
+    kg: b.querySelector('input').value,
+    done: b.classList.contains('done')
+  }));
+  localStorage.setItem('sets-' + id, JSON.stringify(data));
+}
+
+// ===== FOOD CHECKS =====
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  el.textContent = el.classList.contains('checked') ? '✓' : '';
+}
+
+// ===== FOOD PLAN TABS =====
+function showFoodPlan(n) {
+  document.querySelectorAll('.food-plan').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.food-tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('food-plan-' + n).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===== WEIGHT =====
+let weightHistory = JSON.parse(localStorage.getItem('weight-history') || '[{"date":"بداية البرنامج","val":57}]');
+
+function updateWeightUI() {
+  const current = weightHistory[weightHistory.length - 1].val;
+  const start = 57, goal = 65;
+  const pct = Math.min(100, Math.max(0, ((current - start) / (goal - start)) * 100));
+  document.getElementById('current-weight-display').innerHTML = current + '<span> كيلو</span>';
+  document.getElementById('hero-weight-display').textContent = current + ' كيلو';
+  document.getElementById('weight-gap').textContent = Math.max(0, (goal - current).toFixed(1));
+  document.getElementById('weight-progress').style.width = pct + '%';
+  document.getElementById('weight-pct').textContent = pct.toFixed(0) + '% من الهدف';
+
+  const list = document.getElementById('weight-history-list');
+  list.innerHTML = '';
+  weightHistory.slice(-8).reverse().forEach((entry, i, arr) => {
+    const prev = arr[i + 1];
+    let diffHtml = '';
+    if (prev) {
+      const d = (entry.val - prev.val).toFixed(1);
+      if (d > 0) diffHtml = `<span class="wh-diff wh-up">+${d}</span>`;
+      else if (d < 0) diffHtml = `<span class="wh-diff wh-down">${d}</span>`;
+      else diffHtml = `<span class="wh-diff wh-same">ثابت</span>`;
+    } else {
+      diffHtml = `<span class="wh-diff wh-same">بداية</span>`;
+    }
+    list.innerHTML += `<li><span class="wh-date">${entry.date}</span><span class="wh-val">${entry.val} كيلو</span>${diffHtml}</li>`;
+  });
+}
+
+function saveWeight() {
+  const val = parseFloat(document.getElementById('weight-input').value);
+  if (isNaN(val) || val < 40 || val > 200) { alert('أدخل وزن صحيح!'); return; }
+  const today = new Date().toLocaleDateString('ar-SA', { day: 'numeric', month: 'short' });
+  weightHistory.push({ date: today, val });
+  localStorage.setItem('weight-history', JSON.stringify(weightHistory));
+  document.getElementById('weight-input').value = '';
+  updateWeightUI();
+}
+
+// ===== MODAL =====
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+// ===== INIT =====
+buildSets();
+updateWeightUI();
+</script>
+
+</body>
+</html>
