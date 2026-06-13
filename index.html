@@ -2,113 +2,406 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>لوحة تحكم عبدو 💪</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التمارين</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  :root {
-    --bg: #0a0a0a;
-    --surface: #111111;
-    --card: #161616;
-    --border: #222222;
-    --neon: #c8ff00;
-    --orange: #ff6b00;
-    --red: #ff3b3b;
-    --text: #e8e8e8;
-    --muted: #666;
-    --radius: 14px;
-  }
+body {
+  font-family: 'Cairo', sans-serif;
+  background: #0d0d0d;
+  color: #eee;
+}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* HEADER */
+header {
+  background: #111;
+  border-bottom: 3px solid #ff6b00;
+  padding: 24px 16px;
+  text-align: center;
+}
+header h1 { font-size: 26px; font-weight: 900; }
+header h1 em { color: #ff6b00; font-style: normal; }
+header p { color: #777; font-size: 13px; margin-top: 6px; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Cairo', sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
+/* NAV */
+nav {
+  display: flex;
+  background: #111;
+  border-bottom: 1px solid #222;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+nav button {
+  flex: 1;
+  padding: 14px 4px;
+  background: none;
+  border: none;
+  color: #666;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: .2s;
+}
+nav button.on { color: #ff6b00; border-bottom-color: #ff6b00; }
 
-  /* ===== HERO BANNER ===== */
-  .hero {
-    background: linear-gradient(135deg, #0a0a0a 0%, #111 40%, #1a1200 100%);
-    border-bottom: 2px solid var(--neon);
-    padding: 24px 16px 20px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -60px; right: -60px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(200,255,0,0.08) 0%, transparent 70%);
-    border-radius: 50%;
-  }
-  .hero-name {
-    font-size: 34px;
-    font-weight: 900;
-    letter-spacing: -1px;
-    color: var(--neon);
-    text-shadow: 0 0 20px rgba(200,255,0,0.4);
-    line-height: 1.1;
-  }
-  .hero-sub {
-    font-size: 13px;
-    color: var(--muted);
-    margin-top: 4px;
-    letter-spacing: 1px;
-  }
-  .hero-weight {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 12px;
-    background: rgba(255,107,0,0.12);
-    border: 1px solid rgba(255,107,0,0.3);
-    border-radius: 30px;
-    padding: 6px 16px;
-    font-size: 13px;
-    color: var(--orange);
-    font-weight: 700;
-  }
+/* SECTIONS */
+.sec { display: none; padding: 16px; max-width: 600px; margin: auto; }
+.sec.on { display: block; }
 
-  /* ===== ALERT BANNER ===== */
-  .alert-banner {
-    background: linear-gradient(90deg, rgba(200,255,0,0.06), rgba(200,255,0,0.12), rgba(200,255,0,0.06));
-    border: 1px solid rgba(200,255,0,0.25);
-    border-radius: var(--radius);
-    margin: 12px 12px 0;
-    padding: 12px 16px;
-    font-size: 13px;
-    color: var(--neon);
-    font-weight: 700;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
-  .alert-banner .icon { font-size: 20px; flex-shrink: 0; }
+/* TIP BOX */
+.tip {
+  background: #1a1000;
+  border-right: 4px solid #ff6b00;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #ccc;
+  margin-bottom: 16px;
+}
+.tip b { color: #ff6b00; }
 
-  /* ===== TABS ===== */
-  .tabs-wrapper {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(10,10,10,0.96);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    padding: 10px 12px;
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .tabs-wrapper::-webkit-scrollbar { display: none; }
-  .tab-btn {
-    flex-shrink: 0;
+/* CARD */
+.card {
+  background: #181818;
+  border: 1px solid #252525;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.card h2 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ff6b00;
+  margin-bottom: 14px;
+}
+
+/* WEIGHT INPUTS */
+.w-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.w-row label { display: block; font-size: 11px; color: #666; margin-bottom: 5px; font-weight: 700; }
+.w-row input {
+  width: 100%;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 900;
+  font-family: 'Cairo', sans-serif;
+  text-align: center;
+  outline: none;
+}
+.w-row input:focus { border-color: #ff6b00; }
+
+.prog-head { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.prog-head span { font-size: 12px; color: #666; }
+.prog-head strong { font-size: 24px; font-weight: 900; color: #ff6b00; }
+.prog-track { background: #111; border-radius: 99px; height: 12px; overflow: hidden; }
+.prog-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #ff6b00, #ffd600);
+  width: 0%;
+  transition: width .5s ease;
+}
+.prog-msg { margin-top: 8px; font-size: 12px; color: #666; text-align: center; }
+.prog-msg.win { color: #39ff14; }
+
+/* DAY TABS */
+.day-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+.day-tab {
+  flex: 1;
+  padding: 10px 6px;
+  background: #111;
+  border: 1px solid #252525;
+  border-radius: 8px;
+  color: #555;
+  font-family: 'Cairo', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: .15s;
+}
+.day-tab.on { background: #ff6b00; border-color: #ff6b00; color: #000; }
+
+/* EXERCISE ITEM */
+.ex {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  transition: border-color .2s;
+}
+.ex.done { border-color: #39ff14; background: #0a150a; }
+
+.ex-row { display: flex; align-items: center; gap: 10px; }
+.chk {
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  border: 2px solid #333;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: transparent;
+  flex-shrink: 0;
+  transition: .15s;
+}
+.ex.done .chk { background: #39ff14; border-color: #39ff14; color: #000; }
+.ex-name { flex: 1; font-size: 13px; font-weight: 700; line-height: 1.35; }
+.ex.done .ex-name { text-decoration: line-through; color: #444; }
+
+.vid {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  background: #1a0900;
+  border: 1px solid #ff6b00;
+  border-radius: 20px;
+  color: #ff6b00;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Cairo', sans-serif;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.pain { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 9px; padding-top: 9px; border-top: 1px solid #1e1e1e; }
+.pain-g { background: #0a1a0a; border: 1px solid #39ff1430; border-radius: 6px; padding: 7px 9px; font-size: 11px; color: #6ddd50; line-height: 1.5; }
+.pain-b { background: #1a0a0a; border: 1px solid #ff333330; border-radius: 6px; padding: 7px 9px; font-size: 11px; color: #ff7070; line-height: 1.5; }
+.pain-g::before { content: '✅ '; }
+.pain-b::before { content: '⚠️ '; }
+
+.ex-count { font-size: 12px; color: #555; margin-top: 10px; text-align: left; }
+.ex-count b { color: #ff6b00; }
+
+/* FOOD */
+.f-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.f-tab {
+  padding: 8px 14px;
+  background: #111;
+  border: 1px solid #252525;
+  border-radius: 99px;
+  color: #555;
+  font-family: 'Cairo', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .15s;
+}
+.f-tab.on { background: #ffd600; border-color: #ffd600; color: #000; }
+
+.f-plan { display: none; }
+.f-plan.on { display: block; }
+
+.meal {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 13px;
+  margin-bottom: 9px;
+}
+.meal-time { font-size: 11px; color: #ff6b00; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
+.meal-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.meal-desc { font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 8px; }
+.macros { display: flex; gap: 6px; flex-wrap: wrap; }
+.mac { padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; }
+.cal { background: #1a0800; color: #ff8c00; border: 1px solid #ff6b0033; }
+.pro { background: #001020; color: #60c8f0; border: 1px solid #4fc3f733; }
+.crb { background: #141400; color: #ffd600; border: 1px solid #ffd60033; }
+
+.f-note {
+  background: #0a150a;
+  border: 1px solid #39ff1420;
+  border-radius: 8px;
+  padding: 11px 13px;
+  font-size: 12px;
+  color: #6ddd50;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>أهلاً بك يا <em>بطل</em> 💪</h1>
+  <p>جاهز لتحدي اليوم؟ تتبع تمارينك وأكلك هنا</p>
+</header>
+
+<nav>
+  <button class="on" onclick="tab('prog',this)">📊 التقدم</button>
+  <button onclick="tab('work',this)">🏋️ التمارين</button>
+  <button onclick="tab('food',this)">🍗 الأكل</button>
+</nav>
+
+<!-- ── PROGRESS ── -->
+<div class="sec on" id="sec-prog">
+  <div class="tip"><b>⏱ قاعدة الـ 3:</b> انزل بالوزن ببطء 3 ثواني، وخذ راحة 3 دقائق بين الستات.<br><b>😴 النوم أولاً:</b> إذا تأخرت ليلاً، نام بدل التمرين — العضلة تكبر وانت نايم.</div>
+  <div class="card">
+    <h2>⚖️ تتبع الوزن</h2>
+    <div class="w-row">
+      <div><label>وزنك الحالي (كجم)</label><input type="number" id="wc" placeholder="90" oninput="calcProg()"></div>
+      <div><label>الوزن المستهدف (كجم)</label><input type="number" id="wt" placeholder="75" oninput="calcProg()"></div>
+    </div>
+    <div class="prog-head">
+      <span>تقدمك نحو الهدف</span>
+      <strong id="pct">—%</strong>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="bar"></div></div>
+    <div class="prog-msg" id="pmsg">أدخل وزنك الحالي والمستهدف 🎯</div>
+  </div>
+</div>
+
+<!-- ── WORKOUT ── -->
+<div class="sec" id="sec-work">
+  <div class="day-tabs">
+    <button class="day-tab on" onclick="day('a',this)">السبت<br>Full A</button>
+    <button class="day-tab" onclick="day('b',this)">الإثنين<br>Full B</button>
+    <button class="day-tab" onclick="day('c',this)">الأربعاء<br>Full C</button>
+  </div>
+  <div id="day-a"></div>
+  <div id="day-b" style="display:none"></div>
+  <div id="day-c" style="display:none"></div>
+</div>
+
+<!-- ── FOOD ── -->
+<div class="sec" id="sec-food">
+  <div class="f-tabs">
+    <button class="f-tab on" onclick="food('eco',this)">💰 اقتصادي</button>
+    <button class="f-tab" onclick="food('pro',this)">🥩 بروتين عالي</button>
+    <button class="f-tab" onclick="food('crb',this)">⚡ كارب للنشاط</button>
+  </div>
+
+  <div class="f-plan on" id="fp-eco">
+    <div class="meal"><div class="meal-time">🌅 الفطار</div><div class="meal-name">بيض مسلوق + جبن قريش + خبز بلدي</div><div class="meal-desc">4 بيضات، 200جم جبن قريش، رغيف بلدي</div><div class="macros"><span class="mac cal">450 كالوري</span><span class="mac pro">35جم بروتين</span><span class="mac crb">40جم كارب</span></div></div>
+    <div class="meal"><div class="meal-time">🌞 الغداء</div><div class="meal-name">فراخ مشوية + أرز بني + سلطة</div><div class="meal-desc">200جم صدر فراخ، كوب أرز بني، خضروات موسم</div><div class="macros"><span class="mac cal">550 كالوري</span><span class="mac pro">45جم بروتين</span><span class="mac crb">55جم كارب</span></div></div>
+    <div class="meal"><div class="meal-time">🌙 العشاء</div><div class="meal-name">تونة + خبز توست + بيضتين</div><div class="meal-desc">علبة تونة في الماء، 2 توست، بيضتين مسلوقين</div><div class="macros"><span class="mac cal">380 كالوري</span><span class="mac pro">40جم بروتين</span><span class="mac crb">25جم كارب</span></div></div>
+    <div class="f-note">🟢 المجموع: ~1380 كالوري | 120جم بروتين | مناسب لأيام الراحة</div>
+  </div>
+
+  <div class="f-plan" id="fp-pro">
+    <div class="meal"><div class="meal-time">🌅 الفطار</div><div class="meal-name">بياض بيض + شوفان + موز</div><div class="meal-desc">6 بياضات + 2 بيضات، كوب شوفان، موزة</div><div class="macros"><span class="mac cal">520 كالوري</span><span class="mac pro">50جم بروتين</span><span class="mac crb">55جم كارب</span></div></div>
+    <div class="meal"><div class="meal-time">🍗 بعد التمرين</div><div class="meal-name">صدر فراخ مشوي + بطاطس حلوة</div><div class="meal-desc">300جم صدر فراخ، 200جم بطاطس حلوة مشوية</div><div class="macros"><span class="mac cal">580 كالوري</span><span class="mac pro">60جم بروتين</span><span class="mac crb">50جم كارب</span></div></div>
+    <div class="meal"><div class="meal-time">🌙 العشاء</div><div class="meal-name">سمك مشوي + خضروات بخار</div><div class="meal-desc">250جم فيليه سمك، بروكلي وجزر، ليمون</div><div class="macros"><span class="mac cal">400 كالوري</span><span class="mac pro">50جم بروتين</span><span class="mac crb">20جم كارب</span></div></div>
+    <div class="meal"><div class="meal-time">🥛 قبل النوم</div><div class="meal-name">جبن قريش + لوز</div><div class="meal-desc">200جم جبن قريش، 30جم لوز</div><div class="macros"><span class="mac cal">280 كالوري</span><span class="mac pro">30جم بروتين</span><span class="mac crb">8جم كارب</span></div></div>
+    <div class="f-note">🟢 المجموع: ~1780 كالوري | 190جم بروتين | ليوم التمرين الشديد</div>
+  </div>
+
+  <div class="f-plan" id="fp-crb">
+    <div class="meal"><div class="meal-time">🌅 الفطار</div><div class="meal-name">فطير بالعسل + شوفان + موزتين</div><div class="meal-desc">فطيرة كاملة، كوب شوفان بالحليب، موزتين، كيوي</div><div class="macros"><span class="mac cal">620 كالوري</span><span class="mac pro">25جم بروتين</span><span class="mac crb">95جم كارب</span></div></div>
+    <div class="meal"><div class="meal-time">⚡ قبل التمرين</div><div class="meal-name">أرز أبيض + صدر فراخ + تمر</div><div class="meal-desc">كوبين أرز أبيض، 200جم فراخ، 5 تمرات</div><div class="macros"><span class="mac cal">700 كالوري</span><span class="mac pro">45جم بروتين</span><span class="mac crb">100جم كارب</span></div></div>
+    <div class="meal"><div class="meal-time">🔄 بعد التمرين</div><div class="meal-name">موز + بروتين شيك</div><div class="meal-desc">موزتين + سكوب بروتين بالحليب</div><div class="macros"><span class="mac cal">350 كالوري</span><span class="mac pro">30جم بروتين</span><span class="mac crb">45جم كارب</span></div></div>
+    <div class="meal"><div class="meal-time">🌙 العشاء</div><div class="meal-name">معكرونة + فراخ + صوص طماطم</div><div class="meal-desc">200جم معكرونة، 150جم فراخ، صوص طبيعي</div><div class="macros"><span class="mac cal">580 كالوري</span><span class="mac pro">40جم بروتين</span><span class="mac crb">75جم كارب</span></div></div>
+    <div class="f-note">🟢 المجموع: ~2250 كالوري | 140جم بروتين | 315جم كارب | ليوم النشاط العالي</div>
+  </div>
+</div>
+
+<script>
+// NAV TABS
+function tab(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('on'));
+  document.getElementById('sec-' + id).classList.add('on');
+  btn.classList.add('on');
+}
+
+// PROGRESS
+function calcProg() {
+  const cur = +document.getElementById('wc').value;
+  const tgt = +document.getElementById('wt').value;
+  const msg = document.getElementById('pmsg');
+  if (!cur || !tgt) { document.getElementById('bar').style.width='0%'; document.getElementById('pct').textContent='—%'; msg.textContent='أدخل وزنك الحالي والمستهدف 🎯'; msg.className='prog-msg'; return; }
+  const rem = Math.abs(cur - tgt);
+  // Show % of remaining vs target journey using localStorage start
+  const sk = 'gymStart';
+  let start = +localStorage.getItem(sk);
+  if (!start || Math.abs(start - cur) > Math.abs(tgt - cur)) { start = cur; localStorage.setItem(sk, cur); }
+  const total = Math.abs(tgt - start);
+  const done = Math.abs(cur - start);
+  const pct = total > 0 ? Math.min(Math.round(done / total * 100), 100) : 0;
+  document.getElementById('bar').style.width = pct + '%';
+  document.getElementById('pct').textContent = pct + '%';
+  if (rem < 0.5) { msg.textContent = '🏆 وصلت لهدفك يا أسطورة!'; msg.className = 'prog-msg win'; }
+  else { msg.textContent = `باقي ${rem.toFixed(1)} كجم للهدف 💪`; msg.className = 'prog-msg'; }
+}
+
+// WORKOUT DATA
+const EX = {
+  a: [
+    { n:'تجميع بنج مستوي بالدمبل (Flat Dumbbell Press)', g:'بطن عضلة الصدر من الوسط', b:'نغزة في مفصل الكتف أو الكوع', q:'flat+dumbbell+bench+press+technique' },
+    { n:'سحب عالي للضهر (Lat Pulldown)', g:'عضلة المجنص تحت الباط ومن الخلف', b:'تحميل كامل على الكوع أو الساعد', q:'lat+pulldown+proper+form' },
+    { n:'تجميع كتف بالدمبل (Dumbbell Shoulder Press)', g:'تدويرة الكتف من الخارج', b:'وجع في الرقبة أو أسفل الظهر', q:'dumbbell+shoulder+press+form' },
+    { n:'تبادل باي بالدمبل (Biceps Curls)', g:'كورة الدراع الأمامية', b:'نغزة في مفصل الكوع أو معصم الإيد', q:'bicep+curl+dumbbell+proper+form' },
+    { n:'دفع تراي بالمسطرة على الكابل (Tricep Pushdown)', g:'الدراع من الخلف بالكامل', b:'وجع وتزييق في الكوع', q:'tricep+pushdown+cable+form' },
+    { n:'سكوات على جهاز السميث (Smith Squat)', g:'الفخد الأمامي والمؤخرة', b:'وجع في صابونة الركبة أو قطم في أسفل الظهر', q:'smith+machine+squat+form' },
+  ],
+  b: [
+    { n:'بنج مائل بالدمبل (Incline Dumbbell Press)', g:'الصدر العلوي تحت عظمة الترقوة', b:'مفصل الكتف الأمامي', q:'incline+dumbbell+press+form' },
+    { n:'تجديف T-Bar أو بار', g:'نص الضهر وعرضه', b:'أسفل الظهر ينزعج', q:'T+bar+row+proper+form' },
+    { n:'رفرفة كتف جانبي (Lateral Raise)', g:'جانب الكتف الأوسط', b:'الرقبة والكتف العلوي', q:'lateral+raise+dumbbell+technique' },
+    { n:'تراي خلف الرأس بالدمبل (Overhead Extension)', g:'عضلة التراي الخلفية الطويلة', b:'مفصل الكوع تحت الضغط', q:'overhead+tricep+extension+form' },
+    { n:'جهاز الدفع للرجل (Leg Press)', g:'عضلات الفخد كاملة', b:'أسفل الظهر أو الركبة تتعدى الأصابع', q:'leg+press+machine+form' },
+    { n:'جهاز السمانة واقف (Calf Raises)', g:'بطة الرجل من الخلف', b:'وتر العرقوب أو الكاحل', q:'calf+raise+machine+form' },
+  ],
+  c: [
+    { n:'بنج فراشة بالدمبل (Chest Fly)', g:'تمدد خط الصدر الوسطي', b:'شد عنيف في أوتار الكتف', q:'chest+fly+dumbbell+form' },
+    { n:'سحب أرضي بالكيبل (Seated Cable Row)', g:'مجنص وأسفل لوح الكتف', b:'انحناء الضهر والوجع في الفقرات', q:'seated+cable+row+proper+form' },
+    { n:'رفرفة كتف خلفي (Rear Delt Fly)', g:'الكتف الخلفي من وراء', b:'الرقبة والكتف العلوي', q:'rear+delt+fly+form' },
+    { n:'باي بالبار الزجزاج (EZ-Bar Curl)', g:'عضلة الباي كاملة', b:'رسغ الإيد أو الكوع', q:'EZ+bar+curl+bicep+form' },
+    { n:'تمديد الرجل أمامي (Leg Extension)', g:'العضلة الأمامية للفخد فوق الركبة', b:'صابونة الركبة نفسها', q:'leg+extension+machine+form' },
+    { n:'بلانك (Plank)', g:'شد في عضلات البطن والجذع', b:'تحميل ووجع في أسفل الظهر', q:'plank+exercise+proper+form+core' },
+  ]
+};
+
+function buildDay(d) {
+  const wrap = document.getElementById('day-' + d);
+  const list = EX[d].map((e, i) => {
+    const id = `e${d}${i}`;
+    const url = `https://www.youtube.com/results?search_query=${e.q}`;
+    return `<div class="ex" id="${id}">
+      <div class="ex-row">
+        <div class="chk" onclick="chk('${id}','${d}')">✓</div>
+        <div class="ex-name">${e.n}</div>
+        <a class="vid" href="${url}" target="_blank" rel="noopener">▶ شرح</a>
+      </div>
+      <div class="pain">
+        <div class="pain-g">${e.g}</div>
+        <div class="pain-b">${e.b}</div>
+      </div>
+    </div>`;
+  }).join('');
+  wrap.innerHTML = `<div class="card"><h2>${{a:'🔥 Full Body A — السبت',b:'⚡ Full Body B — الإثنين',c:'💎 Full Body C — الأربعاء'}[d]}</h2>${list}<div class="ex-count">مكتمل: <b id="cnt-${d}">0</b> / ${EX[d].length}</div></div>`;
+}
+
+function chk(id, d) {
+  document.getElementById(id).classList.toggle('done');
+  const cnt = document.querySelectorAll(`#day-${d} .ex.done`).length;
+  document.getElementById('cnt-' + d).textContent = cnt;
+}
+
+function day(d, btn) {
+  ['a','b','c'].forEach(x => document.getElementById('day-'+x).style.display = x===d?'block':'none');
+  document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+function food(id, btn) {
+  document.querySelectorAll('.f-plan').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.f-tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('fp-' + id).classList.add('on');
+  btn.classList.add('on');
+}
+
+buildDay('a'); buildDay('b'); buildDay('c');
+</script>
+</body>
+</html>
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 30px;
